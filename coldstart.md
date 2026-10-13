@@ -108,3 +108,20 @@ coldstart.md    → Coldstart memory & architecture documentation
    - Menambahkan tombol switch tema (`Sun` ☀️ / `Moon` 🌙) di Navbar.
    - Konfigurasi `darkMode: 'class'` pada `tailwind.config.ts`, state manager `lib/theme.ts`, dan sinkronisasi `localStorage`.
    - Harmonisasi warna seluruh komponen (Core Loop Step 1-6, Creative Library, Performance Analytics, Admin Dashboard, Billing Plans) sehingga tampil rapi dan kontras di mode terang (Light Mode) maupun gelap (Dark Mode).
+
+---
+
+## 2026-10-13: Beginner-Friendly Guided Wizard & 1-Click Brand Profiles
+1. **Mode Pemula (Guided Step-by-Step Flow)**:
+   - Alur disederhanakan dari 6 tahap teknis bertumpuk menjadi 4 langkah linear terfokus:
+     - **Langkah 1: Kenalkan Produk & Tawaranmu**: 3 pertanyaan inti bahasa manusiawi + accordion pengaturan tambahan opsional.
+     - **Langkah 2: AI Meracik Materi Iklan**: 1-klik generator dengan animasi proses dan pilihan varian ringkas.
+     - **Langkah 3: Pilih Iklan Favorit & Luncurkan**: Tampilan kartu fokus satu per satu bergaya mockup feed/reels media sosial dengan tombol aksi tegas (Setujui / Luncurkan ke Meta Ads).
+     - **Langkah 4: Hasil Performa & Rekomendasi AI**: Ringkasan metrik bahasa awam (Iklan Pemenang 🏆, ROAS, Minat Klik) + saran perbaikan AI + tombol 1-klik pembuatan Siklus 2.
+2. **Pustaka Profil Brand/Produk Tersimpan (1-Click Switcher & Save)**:
+   - Tombol chip cepat di atas Langkah 1 (`[Vibe Coding Bootcamp] [Kopi Kenangan Promo] [Pesat SaaS AI] [+ Buat Profil Baru]`).
+   - Sekali klik chip langsung mengisi seluruh formulir seketika tanpa perlu mengetik ulang.
+   - Tombol *"Simpan Profil Ini Untuk Dipakai Lagi"* memungkinkan penyimpanan profil baru ke memori workspace (`savedBrandProfiles`).
+3. **Toggle Mode Fleksibel**:
+   - Switcher di header kanan atas: **Mode Pemula (Guided)** (default) dan **Mode Pro (6-Pipeline)** untuk pengguna mahir yang membutuhkan tabel spreadsheet dan kontrol granular.
+

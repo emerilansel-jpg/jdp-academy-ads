@@ -25,6 +25,7 @@ export interface WorkspaceState {
   organizations: Organization[];
   memberships: Membership[];
   brandProfiles: Record<string, BrandProfile>; // orgId -> profile
+  savedBrandProfiles?: BrandProfile[];
   adAccounts: AdAccount[];
   campaigns: Campaign[];
   creatives: Creative[];
@@ -102,6 +103,44 @@ export const INITIAL_DEMO_STATE: WorkspaceState = {
       brand_notes: "Fokuskan pada kontras antara 'Loker Minta Pengalaman 1 Tahun' vs 'Pengalaman Dibangun Lewat Karya Nyata'.",
     },
   },
+  savedBrandProfiles: [
+    {
+      id: "preset-jdp-1",
+      organization_id: "org-jdp-101",
+      product_name: "Vibe Coding Bootcamp 120 Hari",
+      offer: "Diskon Early Bird Batch 4 + Jaminan Portofolio 3 Web App Live",
+      audience: "Fresh graduate IT, junior developer & career switchers usia 19-32 tahun di Indonesia",
+      value_prop: "Belajar coding modern mengarahkan AI (LLM / Vibe Coding) dari problem framing sampai deployment nyata tanpa hafalan sintaks rumit",
+      tone: "Inspiratif, lugas, anti-basa-basi, empati pada tantangan loker entry-level",
+      cta: "Mulai Bangun Portofolio Sekarang",
+      brand_notes: "Fokuskan pada kontras antara 'Loker Minta Pengalaman 1 Tahun' vs 'Pengalaman Dibangun Lewat Karya Nyata'.",
+      created_at: "2026-09-01T10:00:00Z",
+    },
+    {
+      id: "preset-coffee-2",
+      organization_id: "org-jdp-101",
+      product_name: "Kopi Kenangan Nusantara Promo Bundle",
+      offer: "Beli 2 Gratis 1 + Gratis Ongkir Seluruh Jakarta",
+      audience: "Pekerja kantoran, mahasiswa, dan penikmat kopi susu usia 20-35 tahun",
+      value_prop: "Kopi arabika asli nusantara dengan gula aren premium segar siap antar 15 menit",
+      tone: "Ceria, santai, menggugah selera, kasual anak muda",
+      cta: "Pesan Sekarang di Aplikasi",
+      brand_notes: "Highlight kesegaran es kopi di jam ngantuk kantor (13:00 - 15:00).",
+      created_at: "2026-10-01T14:30:00Z",
+    },
+    {
+      id: "preset-saas-3",
+      organization_id: "org-jdp-101",
+      product_name: "Pesat AI Ads Generator (SaaS)",
+      offer: "Coba Gratis 14 Hari Tanpa Kartu Kredit",
+      audience: "Digital agency, media buyer, pemilik brand e-commerce di Indonesia",
+      value_prop: "Buat puluhan varian hook iklan Meta Ads berbasis formula pemenang hanya dalam 60 detik",
+      tone: "Data-driven, solutif, percaya diri, efisien",
+      cta: "Coba Generator Gratis Sekarang",
+      brand_notes: "Tekankan penghematan waktu copywriter & media buyer dari 5 jam jadi 5 menit.",
+      created_at: "2026-10-05T09:00:00Z",
+    },
+  ],
   adAccounts: [
     {
       id: "act-1",
@@ -411,6 +450,45 @@ export class WorkspaceStore {
   saveBrandProfile(profile: BrandProfile) {
     this.state.brandProfiles[profile.organization_id] = profile;
     this.logAudit("BRAND_PROFILE_UPDATED", "brand_profile", profile.id);
+    this.persist();
+  }
+
+  getSavedBrandProfiles(): BrandProfile[] {
+    if (!this.state.savedBrandProfiles || this.state.savedBrandProfiles.length === 0) {
+      this.state.savedBrandProfiles = [...(INITIAL_DEMO_STATE.savedBrandProfiles || [])];
+      this.persist();
+    }
+    return this.state.savedBrandProfiles;
+  }
+
+  saveBrandProfilePreset(profile: Omit<BrandProfile, "id"> & { id?: string }): BrandProfile {
+    const profiles = [...this.getSavedBrandProfiles()];
+    const existingIndex = profile.id ? profiles.findIndex((p) => p.id === profile.id) : -1;
+
+    const saved: BrandProfile = {
+      ...profile,
+      id: profile.id || `preset-${Date.now()}`,
+      created_at: profile.created_at || new Date().toISOString(),
+    };
+
+    if (existingIndex >= 0) {
+      profiles[existingIndex] = saved;
+    } else {
+      profiles.unshift(saved);
+    }
+
+    this.state.savedBrandProfiles = profiles;
+    this.state.brandProfiles[this.state.currentOrgId] = saved;
+    this.logAudit("BRAND_PROFILE_PRESET_SAVED", "brand_profile", saved.id, {
+      product_name: saved.product_name,
+    });
+    this.persist();
+    return saved;
+  }
+
+  deleteBrandProfilePreset(id: string) {
+    if (!this.state.savedBrandProfiles) return;
+    this.state.savedBrandProfiles = this.state.savedBrandProfiles.filter((p) => p.id !== id);
     this.persist();
   }
 

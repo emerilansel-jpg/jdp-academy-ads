@@ -1,0 +1,12 @@
+{
+  "name": "jdpacademy-ads",
+  "main": "src/worker.ts",
+  "compatibility_date": "2025-01-01",
+  "assets": {
+    "directory": "./out",
+    "binding": "ASSETS"
+  },
+  "vars": {
+    "APP_ORIGIN": "https://jdp.academy"
+  }
+}

@@ -97,3 +97,14 @@ coldstart.md    → Coldstart memory & architecture documentation
   - Worker `jdpacademy-ads` live di `https://jdpacademy-ads.emerilansel.workers.dev`.
   - Main router di `https://jdp.academy/ads` live mengarah ke worker Pesat dengan status `200 OK` di semua rute (`/ads/`, `/ads/library/`, `/ads/analytics/`, `/ads/admin/`, `/ads/billing/`).
   - Tidak ada interferensi pada rute eksisting JDP Academy (`/`, `/vibe-coding/`, `/about/` tetap `200 OK`).
+
+---
+
+## 2026-10-13: UI Refinement - Header Menu Links & Theme Switcher (Light/Dark Mode)
+1. **Perbaikan Duplikasi Link Header (`/ads/ads/...`)**:
+   - Menyelaraskan seluruh `href` di `Navbar.tsx` menjadi relative route Next.js (`/`, `/library`, `/analytics`, `/billing`, `/admin`).
+   - Karena Next.js menggunakan `basePath: '/ads'`, tautan otomatis disematkan sekali tanpa duplikasi, sehingga seluruh klik navigasi langsung mengarah ke rute 200 OK.
+2. **Implementasi Light Mode & Theme Toggle Switcher**:
+   - Menambahkan tombol switch tema (`Sun` ☀️ / `Moon` 🌙) di Navbar.
+   - Konfigurasi `darkMode: 'class'` pada `tailwind.config.ts`, state manager `lib/theme.ts`, dan sinkronisasi `localStorage`.
+   - Harmonisasi warna seluruh komponen (Core Loop Step 1-6, Creative Library, Performance Analytics, Admin Dashboard, Billing Plans) sehingga tampil rapi dan kontras di mode terang (Light Mode) maupun gelap (Dark Mode).
